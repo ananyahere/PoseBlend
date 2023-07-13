@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head'); %>
+</head>
+<body>
+
+
+<script>
+// GLOBAL VAR
+      var people = { friends: [], incoming: [], outgoing: [] };
+      const user = JSON.parse(localStorage.getItem("user"));
+// CHAT FEATURE
+
+
+// FETCH ALL FRIENDS OF LOGGED IN USER      
+      fetch("/api/user/friends", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log("people: ", json.result)
+          people = json.result; 
+          renderFriends();
+        });
+
+      function renderFriends() {
+        // set friendlist
+        var friendlist = document.getElementById("friendlist");
+        people?.friends?.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element._id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          friendlist.appendChild(item);
+        });
+        // set incoming list
+        var incominglist = document.getElementById("incominglist");
+        people?.incoming?.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element._id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          incominglist.appendChild(item);
+        });
+        // set outgoing list
+        var outgoinglist = document.getElementById("outgoinglist");
+        people?.outgoing?.forEach((element) => {
+          var item = document.createElement("div");
+          item.setAttribute("class", "item");
+          item.innerHTML =
+            "<button class='ui large button' style='width: 90%' onclick='openChat(" +
+            element._id +
+            ")'><i class='large user circle icon'></i>" +
+            element.username +
+            "</button> ";
+          outgoinglist.appendChild(item);
+        });
+      }        
+</script>
+
+
+  <%- include('./partials/navbar'); %>
+  <div class="ui center aligned padded grid homebuttongrid">
+    <div class="one wide column"></div>
+    <div class="three wide column">
+      <button
+        onclick="window.location.href='/soloplay'"
+        class="large ui button massive circular homebuttons"
+      >
+        Play solo
+      </button>
+    </div>
+    <div class="one wide column"></div>
+
+    <div class="three wide column">
+      <button
+        onclick="window.location.href='/room_details'"
+        class="large ui button massive circular homebuttons"
+      >
+        Play with a friend
+      </button>
+    </div>
+    <div class="four wide column"></div>
+    <div class="four wide grey column">
+      <div class="ui search large" style="margin-left: 5%">
+        <div class="ui icon input">
+          <input
+            class="prompt"
+            type="text"
+            placeholder="Search users..."
+            id="username"
+          />
+          <i class="search icon"></i>
+        </div>
+
+
+
+        <script>
+          $(".ui.search")
+          .search({           
+            apiSettings: {
+              onResponse(response) {                
+                return { results: Object.values(response) };
+              },
+              url: "/api/search?username={query}",
+            },
+            fields: {
+              title: "username",
+            },
+            onSelect: function (result, response) {     
+              console.log("search result: ", result)         
+              window.location.href = `/profile/${result._id}`;
+              return true;
+            },
+          });
+        </script>
+
+
+
+
+      </div>
+      <h1 class="headers ui header white">Friends</h1>
+      <div
+        class="ui very relaxed huge list"
+        style="text-align: center"
+        id="friendlist"
+      ></div>
+      <h1 class="headers ui header">Incoming</h1>
+      <div
+        class="ui very relaxed huge list"
+        style="text-align: center"
+        id="incominglist"
+      ></div>
+      <h1 class="headers ui header">Outgoing</h1>
+      <div
+        class="ui very relaxed huge list"
+        style="text-align: center"
+        id="outgoinglist"
+      ></div>
+    </div>
+  </div>
+
+  <!-- CHAT SECTION -->
+
+  </div>
+</body>
+</html>

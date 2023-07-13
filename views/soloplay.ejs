@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/public/css/solo_game.css" />
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <%- include('./partials/navbar'); %>
+
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="two column row">
+          <div class="column">
+            <div style="min-height: 500px"></div>
+          </div>
+          <div class="column center aligned">
+            <h1 id="poseName">Tadasana</h1>
+            <div class="ui card exerciseCard">
+              <div class="image">
+                <img src="/images/mountain_pose.jpg" id="poseImg" />
+              </div>
+              <div class="content">
+                <div class="header" id="english">Mountain</div>
+              </div>
+              <div class="extra content">
+                Good for
+                <div id="benefits"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two column row">
+          <div class="column center aligned">
+            <div class="ui statistic" style="margin: 20px">
+              <div class="ui header">
+                Hold the position to advance to the next stage!
+              </div>
+              <div class="value" id="time">00:10</div>
+              <div class="label" id="time2">seconds to go</div>
+            </div>
+          </div>
+          <div class="column center aligned">
+            <div class="ui steps">
+              <div class="step">
+                <i class="angle double right icon"></i>
+                <div class="content">
+                  <div class="title" id="next_asana">Shipping</div>
+                  <div class="description">UP NEXT</div>
+                </div>
+              </div>
+            </div>
+            <div class="ui steps">
+              <div class="step">
+                <i class="angle double right icon"></i>
+                <div class="content">
+                  <div class="title">Score</div>
+                  <div class="description" id="score">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="score_alert"></div>
+
+      </div>
+    </div>
+    <script src="/public/js/sketchsolo.js"></script>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <%- include('./partials/navbar'); %>
+    <p id="user_id" style="display: none"><%= user_id %></p>
+    <div class="ui card centered" id="everything">
+      <div class="image" id="profile_pic">
+        <img src="https://semantic-ui.com/images/avatar2/large/kristy.png" />
+      </div>
+
+      <div class="content">
+        <a class="header" id="username-profile"></a>
+        <div class="meta">
+          <span class="date" id="email"></span>
+        </div>
+        <div class="description" id="score"></div>
+      </div>
+
+      <div class="extra content">
+        <a id="location">
+          <i class="location arrow icon"></i>
+        </a>
+      </div>
+
+      <div class="extra content" id="connection-details">
+        <div class="description" id="connection-description"></div>
+        <br />
+      </div>
+    </div>
+  </body>
+  <script>
+    var userId = document.getElementById("user_id").textContent;
+    var userDetails = {};
+    var connection = 0;
+    // FETCH DATA OF SELECTED USER
+    fetch(`/api/userProfile/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        userDetails = json.result.details[0];
+        connection = json.result?.status;
+        // if the selected user is loggedIn user
+        if (
+          JSON.parse(localStorage.getItem("user")) ==
+          json.result.details[0].username
+        ) {
+          connection = -1;
+        }
+        renderUser();
+      });
+
+    function resetUI() {
+      var everything = document.getElementById("everything");
+      everything.innerHTML =
+        '<div class="image" id="profile_pic">' +
+        '<img src="https://semantic-ui.com/images/avatar2/large/kristy.png" />' +
+        "</div>" +
+        '<div class="content">' +
+        '<a class="header" id="username-profile"></a>' +
+        ' <div class="meta">' +
+        '<span class="date" id="email"></span>' +
+        "</div>" +
+        '<div class="description" id="score"></div>' +
+        "</div>" +
+        '<div class="extra content">' +
+        '<a id="location">' +
+        '<i class="location arrow icon"></i>' +
+        " </a>" +
+        "</div>" +
+        '<div class="extra content" id="connection-details">' +
+        '<div class="description" id="connection-description"></div>' +
+        " <br />" +
+        "</div>";
+    }
+
+    function acceptReq() {
+      fetch(`/api/user/friends/accept/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }).then((response) => {
+        connection = 1;
+        resetUI();
+        renderUser();
+      });
+    }
+
+    function sendReq() {
+      fetch(`/api/user/friends/add/${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }).then((response) => {
+        connection = 3;
+        resetUI();
+        renderUser();
+      });
+    }
+
+    function deleteReq() {
+      fetch(`/api/user/friends/delete/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }).then((response) => {
+        connection = 0;
+        resetUI();
+        renderUser();
+      });
+    }
+
+    function renderUser() {
+      document
+        .getElementById("username-profile")
+        .appendChild(document.createTextNode(userDetails.username));
+      document
+        .getElementById("email")
+        .appendChild(document.createTextNode(userDetails.email));
+      document
+        .getElementById("score")
+        .appendChild(document.createTextNode(`Score: ${userDetails.score}`));
+      document
+        .getElementById("location")
+        .appendChild(document.createTextNode(userDetails.city));
+
+      switch (connection) {
+        case -1:
+          //self
+          break;
+        case 0:
+          //no connection
+          document
+            .getElementById("connection-description")
+            .appendChild(document.createTextNode("Send a friend request"));
+          var button = document.createElement("div");
+          button.className = "ui basic green button";
+          button.setAttribute("onclick", "sendReq()");
+          button.appendChild(document.createTextNode("Send"));
+          document.getElementById("connection-details").appendChild(button);
+          break;
+        case 1:
+          //friends
+          document
+            .getElementById("connection-description")
+            .appendChild(
+              document.createTextNode("You two are already friends")
+            );
+          var button = document.createElement("div");
+          button.className = "ui basic red button";
+          button.setAttribute("onclick", "deleteReq()");
+          button.appendChild(document.createTextNode("Unfriend"));
+          document.getElementById("connection-details").appendChild(button);
+          break;
+        case 2:
+          //incoming
+          document
+            .getElementById("connection-description")
+            .appendChild(
+              document.createTextNode(
+                "This person has sent you a friend request"
+              )
+            );
+          var green_button = document.createElement("div");
+          var red_button = document.createElement("div");
+          var both = document.createElement("div");
+          both.className = "ui two buttons";
+          green_button.className = "ui basic green button";
+          green_button.setAttribute("onclick", "acceptReq()");
+          green_button.appendChild(document.createTextNode("Accept"));
+          red_button.className = "ui basic red button";
+          red_button.setAttribute("onclick", "deleteReq()");
+          red_button.appendChild(document.createTextNode("Reject"));
+          both.appendChild(green_button);
+          both.appendChild(red_button);
+          document.getElementById("connection-details").appendChild(both);
+          break;
+        case 3:
+          //outgoing
+          document
+            .getElementById("connection-description")
+            .appendChild(
+              document.createTextNode("You have already sent a request")
+            );
+          var button = document.createElement("div");
+          button.className = "ui basic red button";
+          button.setAttribute("onclick", "deleteReq()");
+          button.appendChild(document.createTextNode("Withdraw"));
+          document.getElementById("connection-details").appendChild(button);
+          break;
+      }
+    }
+  </script>
+</html>

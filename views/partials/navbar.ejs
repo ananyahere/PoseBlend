@@ -1,0 +1,19 @@
+
+<div class="ui pointing menu massive navbar">
+  <a href="/" class="item">
+    <h2>App Name</h2>
+  </a>
+  <a class="item" >Encouraging collaborative fitness</a>
+
+  <a class="item right"  href="/signup">
+    <i class="large user circle icon"></i>
+    <p id="profileicon">Sign up</p>
+  </a>
+  <script>
+    let userLS = localStorage.getItem("user")    
+    if(userLS && userLS!=""){
+        userLS = JSON.parse(userLS);
+        document.getElementById("profileicon").innerText = userLS.username;
+    }
+ </script>
+</div>

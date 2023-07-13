@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <%- include('./partials/navbar'); %>
+
+    <h1 class="headers" style="color: white !important" size="huge">
+      AppName: encouraging fat people genocide since 2022
+    </h1>
+
+    <div class="ui basic segment loginsegment">
+      <div class="ui two column very relaxed stackable grid">
+        <div class="column">
+          <h1
+            class="ui header"
+            size="huge"
+            style="color: black; text-align: center"
+          >
+            Log in
+          </h1>
+          <form class="ui form" id="login_form">
+            <div class="field">
+              <label>Username</label>
+              <div class="ui left icon input">
+                <input type="text" placeholder="Username" id="loginUsername" />
+                <i class="user icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <div class="ui left icon input">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  id="loginPassword"
+                />
+                <i class="lock icon"></i>
+              </div>
+            </div>
+            <div class="ui submit button" onclick="login_submit()">Login</div>
+          </form>
+        </div>
+        <div class="middle aligned column">
+          <h1
+            class="ui header"
+            size="huge"
+            style="color: black; text-align: center"
+          >
+            Sign up
+          </h1>
+          <form class="ui form" id="signup_form">
+            <div class="field">
+              <label>Username</label>
+              <div class="ui left icon input">
+                <input type="text" placeholder="Username" />
+                <i class="user icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <div class="ui left icon input">
+                <input type="text" placeholder="Email" />
+                <i class="envelope icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>City<span class="ui header red tiny">*</span></label>
+              <div class="ui left icon disabled input">
+                <input type="City" placeholder="City" value="Hyderabad" />
+                <i class="globe icon"></i>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Password</label>
+              <div class="ui left icon input">
+                <input type="password" placeholder="Password" />
+                <i class="lock icon"></i>
+              </div>
+            </div>
+
+            <div class="ui submit button" onclick="signup_submit()">
+              Sign up
+            </div>
+            <!-- <h6 class="ui red header tiny">*Currently only available in Hyderabad</h6> -->
+          </form>
+        </div>
+      </div>
+      <div class="ui vertical divider">Or</div>
+    </div>
+
+    <script>
+      function login_submit() {
+        form = document.getElementById("login_form");
+
+        fetch("/api/auth/login", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: form[0].value,
+            password: form[1].value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            } else {
+              localStorage.setItem("jwt", data.token);
+              localStorage.setItem("user_id", data.user_id);
+              localStorage.setItem(
+                "user",
+                JSON.stringify({ username: form[0].value })
+              );
+              window.location.href = "/";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function signup_submit() {    
+        form = document.getElementById("signup_form");
+        fetch("/api/auth/signup", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: form[0].value,
+            password: form[3].value,
+            city_id: 1,
+            email: form[1].value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.error) {
+              alert(data.error);
+            } else {
+              localStorage.setItem("jwt", data.token);
+              localStorage.setItem(
+                "user",
+                JSON.stringify({ username: form[0].value })
+              );
+
+              window.location.href = "/";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    </script>
+  </body>
+</html>

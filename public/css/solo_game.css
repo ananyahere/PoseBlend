@@ -1,0 +1,51 @@
+#time
+{
+    font-size: 80px;
+}
+
+.time2
+{
+    font-size: 30px;
+}
+
+#poseName, #you
+{
+    font-size: 70px;        
+}
+
+.mainPanel
+{
+    padding-top: 30px !important;
+}
+
+.ui.container
+{
+    width: 1400px !important;
+}
+
+.banner
+{
+    font-size: 90px;
+    padding-bottom: 0px !important;
+    margin: 0px !important;
+}
+
+.leftPanel
+{
+    text-align: center !important;
+}
+
+.exerciseCard
+{
+    display: block  !important; margin-left: auto !important; margin-right: auto !important ;
+}
+.content
+{
+    font-weight: 700;
+}
+#benefits
+{
+    font-weight: 500;
+}
+
+
