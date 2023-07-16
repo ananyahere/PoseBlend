@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 let video;
 let poseNet;
 let pose;
@@ -60,24 +58,24 @@ function setup() {
     }
   });
   imgArray[0] = new Image();
-  imgArray[0].src = "/public/images/mountain_pose.jpg";
+  imgArray[0].src = "/images/mountain_pose.jpg";
   imgArray[1] = new Image();
-  imgArray[1].src = "/public/images/tree_pose.jpg";
+  imgArray[1].src = "/images/tree_pose.jpg";
   imgArray[2] = new Image();
-  imgArray[2].src = "/public/images/downward_dog.jpg";
+  imgArray[2].src = "/images/downward_dog.jpg";
   imgArray[3] = new Image();
-  imgArray[3].src = "/public/images/warrior_1.jpg";
+  imgArray[3].src = "/images/warrior_1.jpg";
   imgArray[4] = new Image();
-  imgArray[4].src = "/public/images/warrior_2.jpg";
+  imgArray[4].src = "/images/warrior_2.jpg";
   imgArray[5] = new Image();
-  imgArray[5].src = "/public/images/chair.jpg";
+  imgArray[5].src = "/images/chair.jpg";
 
   // Hide the video element, and just show the canvas
   document.getElementById("poseImg").src = imgArray[poseCounter].src;
   document.getElementById("next_asana").textContent =
     posesArray[poseCounter + 1];
   document.getElementById("english").textContent =
-    '"' + english[poseCounter] + '"';
+    english[poseCounter];
   benefits = getBenefits();
   document.getElementById("benefits").innerHTML = `<ul class="list-unstyled">
   <li>${benefits[0]}</li>
@@ -95,9 +93,9 @@ function setup() {
   // Load Pretrained Model
   yogaNN = ml5.neuralNetwork(options);
   const modelInfo = {
-    model: "/public/js/posenet_models/model.json",
-    metadata: "/public/js/posenet_models/model_meta.json",
-    weights: "/public/js/posenet_models/model.weights.bin",
+    model: "/js/posenet_models/model.json",
+    metadata: "/js/posenet_models/model_meta.json",
+    weights: "/js/posenet_models/model.weights.bin",
   };
   yogaNN.load(modelInfo, yogiLoaded);
 
@@ -209,7 +207,7 @@ function nextPose() {
     target = posesArray[poseCounter];
     document.getElementById("poseName").textContent = target;
     document.getElementById("english").textContent =
-      '"' + english[poseCounter] + '"';
+      english[poseCounter];
     document.getElementById("poseImg").src = imgArray[poseCounter].src;
     let benefits = getBenefits();
     document.getElementById("benefits").innerHTML = `<ul class="list-unstyled">

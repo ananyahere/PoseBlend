@@ -111,7 +111,7 @@
               alert(data.error);
             } else {
               localStorage.setItem("jwt", data.token);
-              localStorage.setItem("user_id", data.user_id);
+              localStorage.setItem("user_id", data.user._id);
               localStorage.setItem(
                 "user",
                 JSON.stringify({ username: form[0].value })

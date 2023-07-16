@@ -3,7 +3,6 @@ const User = require("../model/user");
 const Friendship = require("../model/friendship");
 const router = new express.Router();
 const isAuth = require("../middleware/isAuth");
-const jwt = require("jsonwebtoken");
 const helpers = require("./helpers");
 
 // get user data of LOGGED IN USER
@@ -44,8 +43,7 @@ router.get("/user/friends", isAuth, async (req, res) => {
       status: 1,
     })
     .populate("user_id1")    
-    .exec() 
-    friendsR = friends1.concat(friends2);
+    .exec()    
 
     //INCOMING    
     let incoming = await Friendship

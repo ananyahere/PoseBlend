@@ -36,7 +36,9 @@ function setup() {
   let constraints = { audio: true, video: true };
   video = createCapture(constraints, function (stream) {
     p5l = new p5LiveMedia(this, "CAPTURE", stream, ROOM_ID);
+    // for data sharing between the clients
     p5l.on("data", gotData);
+    // for video stream
     p5l.on("stream", gotStream);
   });
   video.elt.muted = true; // muted video
@@ -68,17 +70,17 @@ function setup() {
     }
   });
   imgArray[0] = new Image();
-  imgArray[0].src = "/public/images/mountain_pose.jpg";
+  imgArray[0].src = "/images/mountain_pose.jpg";
   imgArray[1] = new Image();
-  imgArray[1].src = "/public/images/tree_pose.jpg";
+  imgArray[1].src = "/images/tree_pose.jpg";
   imgArray[2] = new Image();
-  imgArray[2].src = "/public/images/downward_dog.jpg";
+  imgArray[2].src = "/images/downward_dog.jpg";
   imgArray[3] = new Image();
-  imgArray[3].src = "/public/images/warrior_1.jpg";
+  imgArray[3].src = "/images/warrior_1.jpg";
   imgArray[4] = new Image();
-  imgArray[4].src = "/public/images/warrior_2.jpg";
+  imgArray[4].src = "/images/warrior_2.jpg";
   imgArray[5] = new Image();
-  imgArray[5].src = "/public/images/chair.jpg";
+  imgArray[5].src = "/images/chair.jpg";
 
   // Hide the video element, and just show the canvas
   document.getElementById("poseImg").src = imgArray[poseCounter].src;
@@ -102,9 +104,9 @@ function setup() {
   // Load Pretrained Model
   yogaNN = ml5.neuralNetwork(options);
   const modelInfo = {
-    model: "/public/js/posenet_models/model.json",
-    metadata: "/public/js/posenet_models/model_meta.json",
-    weights: "/public/js/posenet_models/model.weights.bin",
+    model: "/js/posenet_models/model.json",
+    metadata: "/js/posenet_models/model_meta.json",
+    weights: "/js/posenet_models/model.weights.bin",
   };
   yogaNN.load(modelInfo, yogiLoaded);
   video.hide();
@@ -179,8 +181,7 @@ function gotResult(error, results) {
           nextPose();
         } else {
           timeLeft = timeLeft - 1;
-          if (timeLeft < 10) {
-            console.log("HOLD THE POSITION");
+          if (timeLeft < 10) {            
             document.getElementById("time").textContent = "00:0" + timeLeft;
             document.getElementById("instruction").textContent =
               "Hold the position";

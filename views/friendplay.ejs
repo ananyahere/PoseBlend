@@ -1,148 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('./partials/head'); %>
-  <script>
-    const ROOM_ID = " <%= room_code %>"
-    console.log(ROOM_ID);
-  </script>
-   <script type="text/javascript" src="https://p5livemedia.itp.io/simplepeer.min.js"></script>
-   <script type="text/javascript" src="https://p5livemedia.itp.io/socket.io.js"></script>    
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>	
-     <script type="text/javascript" src="https://p5livemedia.itp.io/p5livemedia.js"></script>    
-     <style>
-       video
-{
-    transform: rotateY(180deg);
-    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-    -moz-transform:rotateY(180deg); /* Firefox */
-}
-     </style>  
-</head>
-<body>
-  <div class="ui container" style="text-align: center;">
-    <span class="ui header">Room Code:</span>
-    <span id="room-code" class="ui header">
-      <%= room_code %>
-    </span>
-    <span class="ui header">(Share this room code with your friend)</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('./partials/head'); %>
+    <script>      
+      const ROOM_ID = "<%= room_code %>";      
+    </script>
+    <script
+      type="text/javascript"
+      src="https://p5livemedia.itp.io/simplepeer.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://p5livemedia.itp.io/socket.io.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://p5livemedia.itp.io/p5livemedia.js"
+    ></script>
+    <style>
+      video {
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+        -moz-transform: rotateY(180deg); /* Firefox */
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./partials/navbar'); %>
+    <div class="ui container" style="text-align: center">
+      <span class="ui header">Room Code:</span>
+      <span id="room-code" class="ui header"> <%= room_code %> </span>
+      <span class="ui header">(Share this room code with your friend)</span>
 
-    <div class="ui grid">
-      <div class="row">
-        <div class="ui middle center aligned one column grid">
-          <div class="sixteen wide column">
-            <div class="ui ordered horizontal list">
-              <div class="item" id="item0">
-                <img class="ui avatar image" src="/public/images/mountain_pose.jpg">
-                <div class="content">
-                  <div class="header">Mountain</div>
-
+      <div class="ui grid">
+        <div class="row">
+          <div class="ui middle center aligned one column grid">
+            <div class="sixteen wide column">
+              <div class="ui ordered horizontal list">
+                <div class="item" id="item0">
+                  <img
+                    class="ui avatar image"
+                    src="/images/mountain_pose.jpg"
+                  />
+                  <div class="content">
+                    <div class="header">Mountain</div>
+                  </div>
                 </div>
-              </div>
-              <div class="item" id="item1">
-                <img class="ui avatar image" src="/public/images/tree_pose.jpg">
-                <div class="content">
-                  <div class="header">Tree</div>
-
+                <div class="item" id="item1">
+                  <img
+                    class="ui avatar image"
+                    src="/images/tree_pose.jpg"
+                  />
+                  <div class="content">
+                    <div class="header">Tree</div>
+                  </div>
                 </div>
-              </div>
-              <div class="item" id="item2">
-                <img class="ui avatar image" src="/public/images/downward_dog.jpg">
-                <div class="content">
-                  <div class="header">Downward Dog</div>
-
+                <div class="item" id="item2">
+                  <img
+                    class="ui avatar image"
+                    src="/images/downward_dog.jpg"
+                  />
+                  <div class="content">
+                    <div class="header">Downward Dog</div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="item" id="item3">
-                <img class="ui avatar image" src="/public/images/warrior_1.jpg">
-                <div class="content">
-                  <div class="header">Warrior I</div>
-
+                <div class="item" id="item3">
+                  <img
+                    class="ui avatar image"
+                    src="/images/warrior_1.jpg"
+                  />
+                  <div class="content">
+                    <div class="header">Warrior I</div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="item" id="item4">
-                <img class="ui avatar image" src="/public/images/warrior_2.jpg">
-                <div class="content">
-                  <div class="header">Warrior II</div>
-
+                <div class="item" id="item4">
+                  <img
+                    class="ui avatar image"
+                    src="/images/warrior_2.jpg"
+                  />
+                  <div class="content">
+                    <div class="header">Warrior II</div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="item" id="item5">
-                <img class="ui avatar image" src="/public/images/chair.jpg">
-                <div class="content">
-                  <div class="header">Chair</div>
+                <div class="item" id="item5">
+                  <img class="ui avatar image" src="/images/chair.jpg" />
+                  <div class="content">
+                    <div class="header">Chair</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="four column row">
+        <div class="four column row">
           <div class="column">
-             <h2>You</h2>
-             <p class="scores">(<span id="poseCounter" onchange="updatescore()" >0</span>/6) poses done</p>
-             <div style="min-height: 480px">
-
-             </div>
+            <h2>You</h2>
+            <p class="scores">
+              (<span id="poseCounter" onchange="updatescore()">0</span>/6) poses
+              done
+            </p>
+            <div style="min-height: 480px"></div>
           </div>
-          <div class="column"> 
-
-          </div>
+          <div class="column"></div>
           <div class="column center aligned centered">
             <div class="ui card centered">
               <div class="image">
-                <img src="/images/mountain_pose.jpg" id="poseImg">
+                <img src="/images/mountain_pose.jpg" id="poseImg" />
               </div>
               <div class="content">
                 <a class="header" id="english">English name</a>
 
-                <div class="description">
-                  description
-                </div>
+                <div class="description">description</div>
               </div>
-              <div class="extra content">                              
-                Good For     
-                <div id="benefits"></div> 
+              <div class="extra content">
+                Good For
+                <div id="benefits"></div>
               </div>
-              
             </div>
-            <h1 id="poseName" >Utkatasana</h1>
-
+            <h1 id="poseName">Utkatasana</h1>
 
             <div class="ui statistic">
-              <div class="value" id="time">
-                00:10
-              </div>
-              <div class="label" id="time2">
-                seconds to go
-              </div>
+              <div class="value" id="time">00:10</div>
+              <div class="label" id="time2">seconds to go</div>
             </div>
 
-            <div>
-
-            </div>
+            <div></div>
           </div>
           <div class="column right aligned">
-            <h2>Opponent</h2>
-            <p class="scores">(<span  id="poseCounterOther" >0</span>/6) poses done</p>
-            <div style="min-height: 480px">
-            </div>                       
-            <button class="ui labeled red icon button" id="instruction">             
+            <h2>Friend</h2>
+            <p class="scores">
+              (<span id="poseCounterOther">0</span>/6) poses done
+            </p>
+            <div style="min-height: 480px"></div>
+            <button class="ui labeled red icon button" id="instruction">
               Instruction
             </button>
-
           </div>
-      </div>
+        </div>
 
-      <!-- <div class="four column row">
+        <!-- <div class="four column row">
         <div class="column  center aligned">      
         </div>
         <div class="column">
@@ -158,9 +163,8 @@
 
       <div class=" row"></div> -->
 
-
-      <script src="/public/js/friends.js"></script>
+        <script src="/js/friends.js"></script>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
