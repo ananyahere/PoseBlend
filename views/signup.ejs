@@ -6,9 +6,9 @@
   <body>
     <%- include('./partials/navbar'); %>
 
-    <h1 class="headers" style="color: white !important" size="huge">
+    <!-- <h1 class="headers" style="color: white !important" size="huge">
       AppName: encouraging fat people genocide since 2022
-    </h1>
+    </h1> -->
 
     <div class="ui basic segment loginsegment">
       <div class="ui two column very relaxed stackable grid">
@@ -124,7 +124,7 @@
           });
       }
 
-      function signup_submit() {    
+      function signup_submit() {
         form = document.getElementById("signup_form");
         fetch("/api/auth/signup", {
           method: "post",
